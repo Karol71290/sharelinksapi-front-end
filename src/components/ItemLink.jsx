@@ -7,6 +7,7 @@ import StarRating from "./Stars";
 import { useAppContext } from "../context/AppContext";
 
 const ItemLink = ({ item }) => {
+  const BASE_URL = process.env.REACT_APP_API_URL;
   const { links, setLinks, setAlert } = useAppContext();
 
   const handleRatingChange = async (newRating) => {
@@ -56,8 +57,18 @@ const ItemLink = ({ item }) => {
       <div className="p-4">
         {/* Encabezado de la tarjeta */}
         <div className="flex items-center">
-          <div className="w-10 h-10 p-2 bg-gray-400 rounded-full">
-            <img className="w-full" src={item.favicon} alt="" />
+          <div className="w-10  h-10  rounded-full overflow-hidden">
+            <img
+              key={item.id}
+              loading="lazy"
+              src={
+                item?.avatar
+                  ? `${BASE_URL}/${item.avatar}`
+                  : "https://cdn.vectorstock.com/i/preview-1x/84/89/profile-picture-placeholder-vector-38978489.webp"
+              }
+              alt={item.title}
+              lassName="ww-full bg-gray-400 rounded-full"
+            />
           </div>
           <div className="ml-3">
             <a
