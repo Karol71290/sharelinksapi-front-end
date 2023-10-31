@@ -7,7 +7,7 @@ const Alert = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       let close = { show: false, message: null, type: "success" };
-      setAlert({...close});
+      setAlert({ ...close });
     }, 4000); // Cerrar después de 4 segundos
     return () => clearTimeout(timer);
   }, [alert]);
@@ -67,7 +67,9 @@ const Alert = () => {
   return (
     <div
       className={`${
-        alert?.show ? "opacity-100 translate-y-0 z-50 "  : "opacity-0 -translate-y-2"
+        alert?.show
+          ? "opacity-100 translate-y-0 z-50 "
+          : "opacity-0 -translate-y-2"
       } fixed bottom-0 right-0 mb-4 mr-4 p-4 rounded-lg shadow-lg transition-transform duration-300  ${
         alert?.type === "success"
           ? "bg-green-200 text-green-800"

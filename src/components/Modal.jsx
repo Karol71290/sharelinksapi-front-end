@@ -20,7 +20,7 @@ const Modal = forwardRef(({ title, textButton, children }, ref) => {
 
   return (
     <>
-      <Button onClick={openModal} color="indigo" >
+      <Button onClick={openModal} color="indigo">
         {textButton}
       </Button>
 

@@ -169,7 +169,7 @@ const changePassword = async ({ oldPass, newPass }) => {
   }
 };
 
-const recoverPassword = async({email}) => {
+const recoverPassword = async ({ email }) => {
   try {
     let body = JSON.stringify({
       email,
@@ -189,11 +189,11 @@ const recoverPassword = async({email}) => {
   } catch (error) {
     return {
       status: "error",
-      message: "Unknown error: " +error ,
+      message: "Unknown error: " + error,
       data: null,
     };
   }
-}
+};
 
 const resetPassword = async ({ code, email, password }) => {
   try {
@@ -237,5 +237,44 @@ const resetPassword = async ({ code, email, password }) => {
   }
 };
 
+const updateProfile = async ({ userName, email }) => {
+  try {
+    let token = localStorage.getItem("token");
 
-export { singIn, singUp, singOut, currentUser, updateAvatar, changePassword , recoverPassword, resetPassword};
+    let body = JSON.stringify({
+      userName,
+      email,
+    });
+
+    let res = await fetch(`${BASE_URL}/update-profile`, {
+      method: "PUT",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    let jsonResponse = await res.json();
+
+    return jsonResponse;
+  } catch (error) {
+    return {
+      status: "error",
+      message: "Unknown error",
+      data: null,
+    };
+  }
+};
+
+export {
+  singIn,
+  singUp,
+  singOut,
+  currentUser,
+  updateAvatar,
+  changePassword,
+  recoverPassword,
+  resetPassword,
+  updateProfile
+};

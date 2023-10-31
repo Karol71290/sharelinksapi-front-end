@@ -1,11 +1,21 @@
 const BASE_URL = process.env.REACT_APP_API_URL + "/links";
 
-const register = async ({ title, url, description }) => {
+const register = async ({
+  title,
+  url,
+  description,
+  image,
+  domain,
+  favicon,
+}) => {
   try {
     let data = JSON.stringify({
       title: title,
       url: url,
       description: description,
+      image,
+      domain,
+      favicon,
     });
 
     let token = localStorage.getItem("token");
@@ -55,8 +65,7 @@ const list = async () => {
 
     console.log(jsonResponse);
 
-    return  jsonResponse;
-
+    return jsonResponse;
   } catch (error) {
     return {
       status: "error",
@@ -133,18 +142,20 @@ const deleteLink = async (linkId) => {
   }
 };
 
-const searchLinks =  async ({keyword}) => {
-  
+const searchLinks = async ({ keyword = "", day = "", username = "" }) => {
   try {
     let token = localStorage.getItem("token");
 
-    let res = await fetch(`${BASE_URL}?keyword=${keyword}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
+    let res = await fetch(
+      `${BASE_URL}?keyword=${keyword}&day=${day}&username=${username}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
 
     let jsonResponse = await res.json();
 
@@ -154,8 +165,7 @@ const searchLinks =  async ({keyword}) => {
 
     console.log(jsonResponse);
 
-    return  jsonResponse;
-
+    return jsonResponse;
   } catch (error) {
     return {
       status: "error",
@@ -163,8 +173,29 @@ const searchLinks =  async ({keyword}) => {
       data: null,
     };
   }
+};
 
+const getPreview = async ({ url }) => {
+  try {
+    let token = localStorage.getItem("token");
 
-}
+    let res = await fetch(`${BASE_URL}/_/preview/?url=${url}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
 
-export { register, list, votes, deleteLink, searchLinks };
+    let jsonResponse = await res.json();
+
+    return jsonResponse;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error,
+      data: null,
+    };
+  }
+};
+export { register, list, votes, deleteLink, searchLinks, getPreview };
